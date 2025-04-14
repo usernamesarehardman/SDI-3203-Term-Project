@@ -56,20 +56,20 @@ This project implements a simple push-style client-server chat application desig
 
 ### Core Features (To Do)
 
-- [ ] Prompt client for username on startup
+- [x] Prompt client for username on startup
 - [ ] Send registration command (`server:register <username>`)
-- [ ] Reject duplicate usernames on server
-- [ ] Maintain a server-side dictionary of active users
-- [ ] Immediately push messages from sender to recipient
-- [ ] Print messages on client side as soon as they arrive
-- [ ] Support sending messages in format `<recipient>:<message>`
-- [ ] Support command `server:who` to request list of online users
+- [x] Reject duplicate usernames on server
+- [x] Maintain a server-side dictionary of active users
+- [x] Immediately push messages from sender to recipient
+- [x] Print messages on client side as soon as they arrive
+- [x] Support sending messages in format `<recipient>:<message>`
+- [x] Support command `server:who` to request list of online users
 - [ ] Support command `server:exit` to disconnect gracefully
 - [ ] Remove user from dictionary upon client exit
 - [ ] Threaded server: one thread per client
 - [ ] Threaded client: one thread listens, one handles input
 - [ ] Server handles commands: register, who, exit, message
-- [ ] Client displays server responses and chat messages
+- [x] Client displays server responses and chat messages
 
 ---
 
