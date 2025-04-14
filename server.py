@@ -2,7 +2,6 @@ import socket
 import threading
 import logging
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 HOST = "127.0.0.1"
@@ -17,6 +16,11 @@ def broadcast(message, sender_socket=None):
                 client.send(message.encode('utf-8'))
             except:
                 remove_client(client)
+
+def remove_client(client_socket):
+    if client_socket in clients:
+        del clients[client_socket]
+    client_socket.close()
 
 def handle_client(client_socket):
     """Handles communication with a single connected client."""
@@ -33,42 +37,34 @@ def handle_client(client_socket):
 
         while True:
             message = client_socket.recv(1024).decode('utf-8')
+            if not message:
+                break
             if message.lower() == "server:exit":
                 break
-            elif message.lower() == "server:who":
-                user_list = ", ".join(clients.values())
-                client_socket.send(f"Active Users: {user_list}".encode('utf-8'))
-            elif ':' in message:
-                target_name, msg = message.split(':', 1)
-                target_name = target_name.strip()
-                msg = msg.strip()
 
-                # Send message only to the target user
-                found = False
-                for sock, user in clients.items():
-                    if user.lower() == target_name.lower():
-                        sock.send(f"{username}: {msg}".encode('utf-8'))
-                        found = True
+            # Handle direct messages: <recipient>:<message>
+            if ':' in message:
+                recipient, dm_message = message.split(':', 1)
+                recipient = recipient.strip()
+                dm_message = dm_message.strip()
+                sent_dm = False
+                for c, user in clients.items():
+                    if user == recipient:
+                        c.send(f"[DM from {username}] {dm_message}".encode('utf-8'))
+                        sent_dm = True
                         break
-                if not found:
-                    client_socket.send(f"[SERVER] User '{target_name}' not found.".encode('utf-8'))
+                if not sent_dm:
+                    client_socket.send("[SERVER] Recipient not found.".encode('utf-8'))
             else:
-                client_socket.send("[SERVER] Invalid message format. Use <recipient>:<message>".encode('utf-8'))
+                # Broadcast to everyone else
+                broadcast(f"{username}: {message}", client_socket)
 
     except Exception as e:
         logging.error(f"Exception in client handler: {e}")
-
     finally:
+        user_left = clients.get(client_socket, "Unknown")
         remove_client(client_socket)
-
-def remove_client(client_socket):
-    """Removes a disconnected client from the clients dictionary."""
-    if client_socket in clients:
-        username = clients[client_socket]
-        logging.info(f"{username} left the chat.")
-        broadcast(f"{username} has left the chat.")
-        del clients[client_socket]
-        client_socket.close()
+        broadcast(f"{user_left} has left the chat.")
 
 def start_server():
     """Starts the server and listens for incoming client connections."""
