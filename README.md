@@ -4,7 +4,7 @@
 
 ## Overview
 
-This project implements a simple push-style client-server chat application designed for local networks. It allows multiple clients to connect to a single server, register with unique usernames, and exchange messages in real time. The server pushes messages directly to recipients without requiring periodic polling.
+This project implements a simple push-style client-server chat application designed for local networks. It supports multiple clients connected to a single server, each registering with a unique username and exchanging messages in real time. The server pushes messages directly to recipients without requiring periodic polling.
 
 ---
 
@@ -12,9 +12,8 @@ This project implements a simple push-style client-server chat application desig
 
     chat_project/
     ├── client.py  
-    ├── server.py  
-    ├── README.md  
-    └── (any other necessary files)
+    ├── server.py   
+    └── README.md
 
 ---
 
@@ -23,7 +22,14 @@ This project implements a simple push-style client-server chat application desig
 ### Prerequisites
 
 - Python 3.6+
-- No external libraries are required (uses only standard libraries)
+
+### Dependencies
+
+- Uses only standard libraries:
+  - `socket`
+  - `threading`
+  - `logging`
+  - `argparse`
 
 ### Setup
 
@@ -49,17 +55,17 @@ This project implements a simple push-style client-server chat application desig
   `server:who`
 - To exit the chat:  
   `server:exit`
-- To check commands:
+- To check available commands:  
   `server:help`
 
 ---
 
 ## ✅ Functional Requirements Checklist
 
-### Core Features (To Do)
+### Core Features
 
 - [x] Prompt client for username on startup
-- [ ] Send registration command (`server:register <username>`)
+- [x] Register username automatically at client startup
 - [x] Reject duplicate usernames on server
 - [x] Maintain a server-side dictionary of active users
 - [x] Immediately push messages from sender to recipient
@@ -70,7 +76,7 @@ This project implements a simple push-style client-server chat application desig
 - [x] Remove user from dictionary upon client exit
 - [x] Threaded server: one thread per client
 - [x] Threaded client: one thread listens, one handles input
-- [ ] Server handles commands: register, who, exit, message
+- [x] Server handles commands: register, who, exit, message
 - [x] Client displays server responses and chat messages
 
 ---
