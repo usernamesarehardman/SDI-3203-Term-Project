@@ -49,6 +49,8 @@ This project implements a simple push-style client-server chat application desig
   `server:who`
 - To exit the chat:  
   `server:exit`
+- To check commands:
+  `server:help`
 
 ---
 
@@ -64,24 +66,12 @@ This project implements a simple push-style client-server chat application desig
 - [x] Print messages on client side as soon as they arrive
 - [x] Support sending messages in format `<recipient>:<message>`
 - [x] Support command `server:who` to request list of online users
-- [ ] Support command `server:exit` to disconnect gracefully
-- [ ] Remove user from dictionary upon client exit
-- [ ] Threaded server: one thread per client
-- [ ] Threaded client: one thread listens, one handles input
+- [x] Support command `server:exit` to disconnect gracefully
+- [x] Remove user from dictionary upon client exit
+- [x] Threaded server: one thread per client
+- [x] Threaded client: one thread listens, one handles input
 - [ ] Server handles commands: register, who, exit, message
 - [x] Client displays server responses and chat messages
-
----
-
-## 🧪 Testing Instructions
-
-You must provide either screenshots or a video recording that demonstrates:
-
-- Starting the server and clients
-- Successful user registration
-- Real-time message delivery between users
-- Display of online users
-- Graceful client exit
 
 ---
 
