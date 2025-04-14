@@ -1,10 +1,8 @@
 import socket
 import threading
 import logging
+import argparse
 
-# Configuration
-HOST = "127.0.0.1"
-PORT = 5555
 MAX_MESSAGE_SIZE = 1024
 
 # Configure logging
@@ -24,12 +22,12 @@ def receive_messages(client_socket):
             break
     client_socket.close()
 
-def start_client():
+def start_client(host, port):
     """Starts the client connection and handles sending messages to the server."""
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        logging.info("[CLIENT] Connecting to server %s:%d", HOST, PORT)
-        client_socket.connect((HOST, PORT))
+        logging.info("[CLIENT] Connecting to server %s:%d", host, port)
+        client_socket.connect((host, port))
     except Exception as e:
         logging.error("[CLIENT] Could not connect to server: %s", e)
         return
@@ -73,4 +71,9 @@ def start_client():
     logging.info("[CLIENT] Connection closed.")
 
 if __name__ == "__main__":
-    start_client()
+    parser = argparse.ArgumentParser(description="Client for push-style chat system.")
+    parser.add_argument("--host", default="127.0.0.1", help="Server host to connect to.")
+    parser.add_argument("--port", type=int, default=5555, help="Server port to connect to.")
+    args = parser.parse_args()
+
+    start_client(args.host, args.port)

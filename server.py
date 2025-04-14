@@ -1,10 +1,8 @@
 import socket
 import threading
 import logging
+import argparse
 
-# Configuration
-HOST = "127.0.0.1"
-PORT = 5555
 MAX_MESSAGE_SIZE = 1024
 clients = {}  # Maps client socket -> username
 
@@ -52,7 +50,6 @@ def handle_client(client_socket):
             client_socket.close()
             return
 
-
         clients[client_socket] = username
         logging.info("[SERVER] %s joined the chat.", username)
         broadcast(f"[SERVER] {username} has joined the chat!")
@@ -98,12 +95,12 @@ def handle_client(client_socket):
         remove_client(client_socket)
         broadcast(f"[SERVER] {user_left} has left the chat.")
 
-def start_server():
+def start_server(host, port):
     """Starts the server and listens for incoming client connections."""
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind((HOST, PORT))
+    server_socket.bind((host, port))
     server_socket.listen(5)
-    logging.info("[SERVER] Chat server started on %s:%d", HOST, PORT)
+    logging.info("[SERVER] Chat server started on %s:%d", host, port)
 
     try:
         while True:
@@ -116,4 +113,9 @@ def start_server():
         server_socket.close()
 
 if __name__ == "__main__":
-    start_server()
+    parser = argparse.ArgumentParser(description="Start the push-style chat server.")
+    parser.add_argument("--host", default="127.0.0.1", help="Host to bind the server to.")
+    parser.add_argument("--port", type=int, default=5555, help="Port to listen on.")
+    args = parser.parse_args()
+
+    start_server(args.host, args.port)
