@@ -68,9 +68,3 @@ This project implements a simple push-style client-server chat application desig
 - [ ] Private group chats
 - [ ] User authentication
 - [ ] GUI using tkinter or other libraries
-
----
-
-## 📬 Contact
-
-For any questions or troubleshooting, please contact your project partners or instructor.
