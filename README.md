@@ -38,7 +38,7 @@ This project implements a simple push-style client-server chat application desig
 
 ### Running the Server
 
-    python server.py --port 8080
+    python server.py --host 127.0.0.1 --port 8080
 
 ### Running a Client
 
@@ -60,29 +60,9 @@ This project implements a simple push-style client-server chat application desig
 
 ---
 
-## ✅ Functional Requirements Checklist
-
-### Core Features
-
-- [x] Prompt client for username on startup
-- [x] Register username automatically at client startup
-- [x] Reject duplicate usernames on server
-- [x] Maintain a server-side dictionary of active users
-- [x] Immediately push messages from sender to recipient
-- [x] Print messages on client side as soon as they arrive
-- [x] Support sending messages in format `<recipient>:<message>`
-- [x] Support command `server:who` to request list of online users
-- [x] Support command `server:exit` to disconnect gracefully
-- [x] Remove user from dictionary upon client exit
-- [x] Threaded server: one thread per client
-- [x] Threaded client: one thread listens, one handles input
-- [x] Server handles commands: register, who, exit, message
-- [x] Client displays server responses and chat messages
-
----
-
 ## 🧰 Optional Features (Stretch Goals)
 
+- [x] Help command
 - [ ] Message queuing for offline users
 - [ ] TLS/SSL encryption
 - [ ] Private group chats
