@@ -38,10 +38,11 @@ def start_client():
     while not username:
         username = input("Username cannot be empty. Enter a valid username: ").strip()
     logging.info("[CLIENT] Username entered: %s", username)
-    client_socket.send(username.encode('utf-8'))
+    registration_message = f"server:register {username}"
+    client_socket.send(registration_message.encode('utf-8'))
 
     response = client_socket.recv(MAX_MESSAGE_SIZE).decode('utf-8')
-    if "Username already taken" in response:
+    if "Username already taken" in response or "Invalid registration format" in response:
         logging.warning("[CLIENT] %s", response)
         client_socket.close()
         return

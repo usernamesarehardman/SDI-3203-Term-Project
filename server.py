@@ -39,11 +39,19 @@ def parse_message(raw_message):
 def handle_client(client_socket):
     """Handles communication with a single connected client."""
     try:
-        username = client_socket.recv(MAX_MESSAGE_SIZE).decode('utf-8').strip()
-        if not username or username in clients.values():
-            client_socket.send("Username already taken. Try again.".encode('utf-8'))
+        registration_message = client_socket.recv(MAX_MESSAGE_SIZE).decode('utf-8').strip()
+
+        if not registration_message.startswith("server:register "):
+            client_socket.send("Invalid registration format. Use 'server:register <username>'.".encode('utf-8'))
             client_socket.close()
             return
+
+        username = registration_message.split(" ", 1)[1].strip()
+        if not username or username in clients.values():
+            client_socket.send("Username already taken or invalid. Try again.".encode('utf-8'))
+            client_socket.close()
+            return
+
 
         clients[client_socket] = username
         logging.info("[SERVER] %s joined the chat.", username)
